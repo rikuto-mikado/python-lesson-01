@@ -6,5 +6,45 @@
     </head>
     <body>
         <h1>Job Application Form</h1>
+        <form>
+            <div>
+                <label for="first_name">First Name:</label>
+                <!-- required: makes this field mandatory. Users must fill it before submitting the form -->
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            <div>
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <!-- type="email": validates email format automatically, shows email keyboard on mobile devices -->
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="date">Available start date:</label>
+                <!-- type="date": provides a calendar picker, ensures valid date format (YYYY-MM-DD) -->
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div>
+                <label>Current occupation: </label>
+                <br>
+                <!-- Radio buttons with the same "name" attribute form a group - only one can be selected at a time -->
+                <div id="occupation">
+                    <!-- type="radio": creates a circular button, users can select only one option from a group with the same name -->
+                    <input type="radio" id="employed" name="occupation" required>
+                    <label for="employed">Employed</label>
+                    
+                    <input type="radio" id="unemployed" name="occupation" required>
+                    <label for="unemployed">Unemployed</label>
+                    
+                    <input type="radio" id="self-employed" name="occupation" required>
+                    <label for="self-employed">Self-Employed</label>
+
+                    <input type="radio" id="student" name="occupation" required>
+                    <label for="student">Student</label>
+                </div>
+            </div>
+        </form>
     </body>
 </html>
