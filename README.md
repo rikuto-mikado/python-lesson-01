@@ -138,20 +138,23 @@
 ### Why are JavaScript CDN links placed at the bottom (before `</body>`)?
 
 **Answer**:
-1. **Page Load Performance**: HTML is parsed from top to bottom. If JS is in `<head>`, the browser must download and execute it before rendering the page content, causing a delay.
+Placing JS at the bottom is a **legacy practice** from when `defer` wasn't widely supported. Today, **you can place JS in `<head>` using the `defer` attribute**.
+
+**Why bottom placement was recommended:**
+1. **Page Load Performance**: HTML is parsed from top to bottom. If JS is in `<head>` **without attributes**, the browser must download and execute it before rendering the page content, causing a delay.
 2. **DOM Availability**: JavaScript often manipulates HTML elements. If JS runs before the HTML is loaded, elements won't exist yet.
 
-**Before (blocks rendering):**
+**Bad: `<head>` without attributes (blocks rendering)**
 ```html
 <head>
-    <script src="bootstrap.js"></script> <!-- Blocks page rendering -->
+    <script src="bootstrap.js"></script> <!-- BLOCKS page rendering -->
 </head>
 <body>
     <button id="myBtn">Click</button>
 </body>
 ```
 
-**After (optimal):**
+**Good: Bottom placement (old solution)**
 ```html
 <head>
     <!-- CSS only -->
@@ -161,6 +164,27 @@
     <script src="bootstrap.js"></script> <!-- Runs after content loads -->
 </body>
 ```
+
+**Best: `<head>` with `defer` (modern solution)**
+```html
+<head>
+    <script src="bootstrap.js" defer></script> <!-- Downloads in parallel, executes after DOM ready -->
+</head>
+<body>
+    <button id="myBtn">Click</button>
+</body>
+```
+
+**Comparison:**
+
+| Placement | Attribute | Blocks Rendering? | Execution Timing | Recommendation |
+|-----------|-----------|-------------------|------------------|----------------|
+| `<head>` | None | Yes | Immediately (before DOM) | Never use |
+| `<head>` | `defer` | No | After DOM is ready | Best practice |
+| `<head>` | `async` | No | As soon as downloaded | Use for analytics |
+| Before `</body>` | None | No | After DOM is loaded | Works, but outdated |
+
+**Conclusion**: Use `<head>` with `defer` for modern projects. Bottom placement still works but is unnecessary with `defer`.
 
 ---
 
@@ -311,15 +335,3 @@ if not request.form.get('email'):
 - Used for toggle button groups (like our occupation selector)
 
 ---
-
-## Additional Resources
-
-- [Bootstrap 5 Documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
-- [MDN HTML Forms Guide](https://developer.mozilla.org/en-US/docs/Learn/Forms)
-- [HTML5 Input Types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
-
----
-
-## Note
-
-This project demonstrates building a responsive, styled form using Bootstrap 5 without writing custom CSS. The form includes client-side validation and custom-styled radio buttons using Bootstrap's button group components.
